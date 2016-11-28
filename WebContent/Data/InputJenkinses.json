@@ -1,0 +1,10 @@
+[{
+	"jenkinsName": "Jenkins1",
+	"jenkinsAlias": "CJA Tests",
+	"jenkinsUrl": "http://1.9.98.72:8080/"
+},
+{
+	"jenkinsName": "JenkinsE2E",
+	"jenkinsAlias": "Jenkins 7.1",
+	"jenkinsUrl": "http://1.9.96.183:8080/"
+}]
