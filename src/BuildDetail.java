@@ -1,4 +1,6 @@
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class BuildDetail {
 	private String jobName;
 	private String jobUrl;

@@ -49,27 +49,30 @@ public class Start {
 	        URL url = new URL(urlAddress);
 	        
 	        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-	        
+
 	        String encoded;
 	        if (userName.length()>0) {
 	        	encoded = DatatypeConverter.printBase64Binary((userName+":"+userPassword).getBytes("UTF-8"));
 	        	conn.setRequestProperty("Authorization", "Basic "+encoded);
+		        conn.setRequestMethod("POST");
+	        } else {
+		        conn.setRequestMethod("GET");
 	        }
+	        conn.setRequestProperty("Content-Type", " application/json;charset=UTF-8");
+	        //conn.setDoOutput(true);	 
 	        
-	        conn.setDoOutput(true);
-	        conn.setRequestMethod("GET");
-	        conn.setRequestProperty("Content-Type", "application/json");
-            
-	        conn.setRequestMethod("POST");
-	        conn.setDoOutput(true);	        
+//			int responseCode = conn.getResponseCode();
+//			System.out.println("\nSending 'GET' request to URL : " + url);
+//			System.out.println("Response Code : " + responseCode);
+			
 	        String input = "";
-
-	        OutputStream os = conn.getOutputStream();
-	        os.write(input.getBytes());
-	        os.flush();
 
 	        BufferedReader br = new BufferedReader(new InputStreamReader(
 	                (conn.getInputStream())));
+	        
+//	        OutputStream os = conn.getOutputStream();
+//	        os.write(input.getBytes());
+//	        os.flush();
 
 	        String output;
 //	        System.out.println("Output from Server .... \n");

@@ -1,4 +1,6 @@
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Build {
 	private int number;
 	private String url;
