@@ -1,3 +1,4 @@
+package models;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -25,7 +26,6 @@ public class Build {
 	public String[] getSubBuilds() {
 		return subBuilds;
 	}
-	
 
 	public void setSubBuilds(String[] subBuilds) {
 		this.subBuilds = subBuilds;

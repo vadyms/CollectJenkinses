@@ -1,4 +1,12 @@
+package services;
+
 import org.codehaus.jackson.map.ObjectMapper;
+import base.BaseActions;
+import base.Global;
+import models.Build;
+import models.BuildDetail;
+import models.Jenkins;
+import models.Job;
 
 public class ProcessJob extends Thread {
 

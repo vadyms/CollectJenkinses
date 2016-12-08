@@ -1,8 +1,10 @@
+package services;
 
 import java.io.File;
 import java.util.ArrayList;
-
 import org.codehaus.jackson.map.ObjectMapper;
+import base.Global;
+import models.Jenkins;
 
 public class Start extends Thread {
 	
@@ -12,7 +14,6 @@ public class Start extends Thread {
 	public static void main(String[] args) throws Exception {
 
 		System.out.println("Start analyse Jenkinses...");
-		
 
         mapper = new ObjectMapper();
         if (args.length==0) {

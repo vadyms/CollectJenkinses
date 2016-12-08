@@ -1,3 +1,4 @@
+package services;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileWriter;
@@ -5,6 +6,11 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import org.codehaus.jackson.map.ObjectMapper;
+import base.BaseActions;
+import base.Global;
+import models.BuildDetail;
+import models.Jenkins;
+import models.Job;
 
 public class ProcessJenkins extends Thread implements Runnable {
 

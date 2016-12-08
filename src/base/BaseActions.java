@@ -1,3 +1,5 @@
+package base;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -15,7 +17,7 @@ public class BaseActions {
 	 * @param urlAddress requested url
 	 * @return server response
 	 */
-	static String getJson(String urlAddress, String userName, String userPassword) {
+	public static String getJson(String urlAddress, String userName, String userPassword) {
 		
 		String responce = "";
 		
@@ -70,7 +72,7 @@ public class BaseActions {
 	 * @param field field to find
 	 * @return value of the field
 	 */
-	static String getValueFromJson(String json, String field) {
+	public static String getValueFromJson(String json, String field) {
 		String resultString = "";
     	try {
     		JsonNode root =  new ObjectMapper().readTree(json);
