@@ -26,7 +26,6 @@ public class CollectJenkins extends Base {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		PrintWriter outPrintWriter = response.getWriter();
 		if (isCollecting) {
 			outPrintWriter.print("Data refresh already in progress!!!");
@@ -35,12 +34,12 @@ public class CollectJenkins extends Base {
 			isCollecting=true;
 			String absoluteFilePath = absoluteFilePath();
 			System.out.println(absoluteFilePath);
+			
 			try {
 				Start.main(new String[]{absoluteFilePath});
-				outPrintWriter.print("Data refreshed");
+				outPrintWriter.print("Data has been refreshed");
 				isCollecting=false;
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				isCollecting=false;
 				outPrintWriter.print("Service can NOT collect data!");
 				e.printStackTrace();
