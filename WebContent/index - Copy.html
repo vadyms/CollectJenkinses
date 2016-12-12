@@ -1,0 +1,241 @@
+<html>
+	<head>
+		<title>
+		</title>
+		<script src="@routes.Assets.versioned("javascripts/jQuery.js")" type="text/javascript"></script>
+
+		<link rel="stylesheet" href="./javascripts/jqwidgets/jqwidgets/styles/jqx.base.css" type="text/css" />
+		<script src="./javascripts/jqwidgets/scripts/jquery-1.11.1.min.js" type="text/javascript"></script>
+		<script src="./javascripts/jqwidgets/jqwidgets/jqxcore.js" type="text/javascript"></script>
+		<script src="./javascripts/jqwidgets/jqwidgets/jqxdata.js" type="text/javascript"></script> 
+		<script src="./javascripts/jqwidgets/jqwidgets/jqxbuttons.js" type="text/javascript"></script>
+		<script src="./javascripts/jqwidgets/jqwidgets/jqxscrollbar.js" type="text/javascript"></script>
+		<script src="./javascripts/jqwidgets/jqwidgets/jqxmenu.js" type="text/javascript"></script>
+		<script src="./javascripts/jqwidgets/jqwidgets/jqxgrid.js" type="text/javascript"></script>
+		<script src="./javascripts/jqwidgets/jqwidgets/jqxgrid.edit.js" type="text/javascript"></script>  
+		<script src="./javascripts/jqwidgets/jqwidgets/jqxgrid.selection.js" type="text/javascript"></script> 
+		<script src="./javascripts/jqwidgets/jqwidgets/jqxgrid.filter.js" type="text/javascript"></script> 
+		<script src="./javascripts/jqwidgets/jqwidgets/jqxgrid.sort.js" type="text/javascript"></script> 
+		<script src="./javascripts/jqwidgets/jqwidgets/jqxgrid.aggregates.js" type="text/javascript"></script> 
+		<script src="./javascripts/jqwidgets/jqwidgets/jqxlistbox.js" type="text/javascript"></script>
+		<script src="./javascripts/jqwidgets/jqwidgets/jqxdropdownlist.js" type="text/javascript"></script>
+		<script src="./javascripts/jqwidgets/jqwidgets/jqxcheckbox.js" type="text/javascript"></script>
+		<script src="./javascripts/jqwidgets/jqwidgets/jqxcalendar.js" type="text/javascript"></script>
+		<script src="./javascripts/jqwidgets/jqwidgets/jqxnumberinput.js" type="text/javascript"></script>
+		<script src="./javascripts/jqwidgets/jqwidgets/jqxdatetimeinput.js" type="text/javascript"></script>
+		<script src="./javascripts/jqwidgets/jqwidgets/globalization/globalize.js" type="text/javascript"></script>
+		<script src="./javascripts/jqwidgets/jqwidgets/jqxscrollbar.js" type="text/javascript"></script>
+		<script src="./javascripts/jqwidgets/jqwidgets/jqxdropdownlist.js" type="text/javascript"></script>
+		<script src="./javascripts/jqwidgets/jqwidgets/jqxcombobox.js" type="text/javascript"></script>
+		<script src="./javascripts/jqwidgets/jqwidgets/jqxinput.js" type="text/javascript"></script>
+		<script src="./javascripts/jqwidgets/jqwidgets/jqxdatatable.js" type="text/javascript"></script>
+		<script src="./javascripts/jqwidgets/jqwidgets/generatedata.js" type="text/javascript"></script>
+		<script src="./javascripts/jqwidgets/scripts/demos.js" type="text/javascript"></script>
+		<script type="text/javascript" src="./javascripts/jqwidgets/jqwidgets/jqxdata.export.js"></script> 
+		<script type="text/javascript" src="./javascripts/jqwidgets/jqwidgets/jqxgrid.export.js"></script> 
+		<script type="text/javascript" src="./javascripts/jqwidgets/jqwidgets/jqxchart.core.js"></script>
+		
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		<script type="text/javascript">
+
+			function getQueryVariable(variable) {
+			  var query = window.location.search.substring(1);
+			  var vars = query.split("&");
+			  for (var i=0;i<vars.length;i++) {
+				var pair = vars[i].split("=");
+				if (pair[0] == variable) {
+				  return pair[1];
+				}
+			  } 
+			  //alert('Query Variable ' + variable + ' not found');
+			}
+			
+			
+			$(document).ready(function () {
+
+				var url = "../CollectJenkins/Data/InputJenkinses.json";
+				// prepare the data
+				var source =
+				{
+					datatype: "json",
+					datafields: [
+						{ name: 'jenkinsName' }
+					],
+					url: url,
+					async: false
+				};
+				var dataAdapter = new $.jqx.dataAdapter(source);
+				// Create a jqxComboBox
+				$("#jenkinses").jqxComboBox({ selectedIndex: -1, placeHolder: "Select Jenkins", source: dataAdapter, displayMember: "jenkinsName", valueMember: "jenkinsName", width: 200, height: 25});
+				$("#jenkinses").on('select', function (event) {
+
+					if (event.args) {
+						var item = event.args.item;
+
+						var url = "../CollectJenkins/Data/OUTPUT_"+item.value;
+						
+						var linkrenderer = function (row, dataFields, value, rowdata) {
+							return '<a href="' + rowdata.jobUrl + '" target="_blank"/>' + value + '</a>';
+						};
+						
+						var source =
+						{
+							dataType: "json",
+							dataFields: [
+								{ name: 'jobName', type: 'string' },
+								{ name: 'jobUrl', type: 'string' },
+								{ name: 'result', type: 'string' },
+								{ name: 'totalCount', type: 'int' },
+								{ name: 'failCount', type: 'int' },
+								{ name: 'passCount', type: 'int' }
+							],
+							url: url
+						};
+						var dataAdapter = new $.jqx.dataAdapter(source);
+						
+						/*
+						$("#dataTable").jqxDataTable(
+						{
+							width: '65%',
+							columnsHeight: 50,
+							pageable: false,
+							pagerButtonsCount: 10,
+							source: dataAdapter,
+							columnsResize: true,
+							autoRowHeight: true,
+							editable:true,
+							filterable: true,
+							filterMode: 'advanced',
+							showAggregates: true,
+							aggregatesHeight: 70,
+							enableBrowserSelection: true,
+							columns: [
+							  { text: 'Job', dataField: 'jobName', width: 'auto', cellsrenderer: linkrenderer, aggregates: ['count']},
+							  //{ text: 'URL', dataField: 'jobUrl', width: 'auto', cellsrenderer: linkrenderer },
+							  { text: 'Result', dataField: 'result', width: 100 },
+							  { text: 'Total Test', dataField: 'totalCount', width: 100 , aggregates: ['sum']},
+							  { text: 'Fail Tests', dataField: 'failCount', width: 100 , aggregates: ['sum']},
+							  { text: 'Pass Tests', dataField: 'passCount', width: 100, aggregates: ['sum']}
+						  ]
+						});
+						*/
+						/// 8888888888888888888888888888888888888888888888888888888888888
+						// prepare the data
+						
+						var linkrenderer = function (row, dataField, value, rowdata, column, arguments) {
+							return '<a href="' + arguments.jobUrl + '" target="_blank"/>' + value + '</a>';
+						};
+
+						var source =
+						{
+							datatype: "json",
+							dataField: [
+								{ name: 'jobName', type: 'string' },
+								{ name: 'jobUrl', type: 'string' },
+								{ name: 'result', type: 'string' },
+								{ name: 'totalCount', type: 'int' },
+								{ name: 'failCount', type: 'int' },
+								{ name: 'passCount', type: 'int' },
+								{ name: 'comment', type: 'string' }
+							],
+							url: url
+						};
+						var dataAdapter = new $.jqx.dataAdapter(source);
+						
+						$("#jqxgrid").jqxGrid(
+						{
+							width: '75%',
+							source: dataAdapter,
+							sortable: true,
+							filterable: true,
+							filtermode: 'excel',
+							autoshowfiltericon: false,
+							showaggregates: true,
+							showstatusbar: true,
+							enablebrowserselection: true,
+							editable:true,
+							columns: [
+							  //{ text: 'Job', dataField: 'jobName', width: 'auto', cellsrenderer: linkrenderer, aggregates: ['count']},
+							  { text: 'Job', dataField: 'jobUrl', width: 'auto', cellsrenderer: linkrenderer, aggregates: ['count'], editable:false },
+							  { text: 'Result', dataField: 'result' , width: 100, editable:false },
+							  { text: 'Total Test', dataField: 'totalCount', width: 100 , aggregates: ['sum'], editable:false, cellsformat: 'n', cellsalign: 'center'},
+							  { text: 'Fail Tests', dataField: 'failCount' , width: 100, aggregates: ['sum'], editable:false, cellsformat: 'n', cellsalign: 'center'},
+							  { text: 'Pass Tests', dataField: 'passCount', width: 100, aggregates: ['sum'], editable:false, cellsformat: 'n', cellsalign: 'center'},
+							  { text: 'Comment', width: 450, dataField: 'comment' }
+						  ]
+						});
+					}
+					document.getElementById('jqxButton1').style.visibility='visible';
+					//document.getElementById('jqxButton2').style.visibility='visible';
+					//document.getElementById('jqxButton3').style.visibility='visible';
+					document.getElementById('jqxButton4').style.visibility='visible';
+					$('#jqxgrid').jqxGrid({ editmode: 'dblclick'});
+				});
+				
+				
+				$('#jqxButton1').click(function () {
+					$('#jqxgrid').jqxGrid('refreshdata');
+					$('#jqxgrid').jqxGrid('updatebounddata');
+					
+				});
+				
+				$('#jqxButton4').click(function () {
+					
+					var jenkins = $("#jenkinses").jqxComboBox('val');
+					var toList = 'vadimsn@nice.com';
+					var ccList = '';
+					var fromList = 'jenkins.service@nice.com';
+					var subject = 'Jenkins report';
+					var data = '<h2>Jenkins report</h2>' + jenkins + '</h2>'+
+						$("#jqxgrid").jqxGrid('exportdata', 'html')+
+						"";
+					var snmp = '1.10.64.18';
+					var port = '25';
+					
+					//alert(data);
+					$.ajax({
+							async: false,
+							type: "POST",
+							url: '../CollectJenkins/SendEmailReport',
+							data: ({tableData: data, emailTo: toList, emailCC: ccList, emailFrom: fromList, emailSubject: subject , snmpIP: snmp, snmpPort: port}),
+							error: function(){
+							alert('ERROR: Email was not sent correctly!');
+						},
+							success: function (returnedData) {
+							alert('Server sent table to email: '+toList);
+						}
+					});
+					// post data to the server and send it as email in the servlet
+				});
+				
+				
+				
+
+				
+				
+			});
+		</script>
+	</head>
+
+	<body class='default'>
+		<h2 style="margin-left: 41%;"><b>Jenkinses</b><h2>
+		<h3 id="date" align="center"></h3>
+		<div id='jenkinses' style="margin-left: 40%;">
+		</div>
+		<br/>
+		<div id="jqxgrid" style="margin-left: 10%;"></div>
+		<br/>
+		<div  style="margin-left: 30%;">
+		<input type="button" id='jqxButton1' value="Refresh table data"		style="visibility: hidden;"/>
+		<input type="button" id='jqxButton2' value="Save table data"		style="visibility: hidden;"/>
+		<input type="button" id='jqxButton3' value="Load saved table data"  style="visibility: hidden;"/>
+		<input type="button" id='jqxButton4' value="Send table to email"	style="visibility: hidden;"/>
+		</div>
+		<div id='chartContainer' style="width: 850px; height: 500px;">
+		</div>
+		<!--div id="dataTable" style="margin-left: 10%;"></div-->
+		<!--div id="dataTable" style="margin-left: 10%; visibility: hidden;"></div-->
+	</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title id='Description'></title>
+	
+	<link type="text/css" rel="stylesheet" href="./javascripts/jqwidgets/jqwidgets/styles/jqx.base.css"/>
+	
+    <script type="text/javascript" src="./javascripts/jqwidgets/scripts/jquery-1.11.1.min.js"></script>
+
+    <script type="text/javascript" src="./javascripts/jqwidgets/jqwidgets/jqxcore.js"></script>
+    <script type="text/javascript" src="./javascripts/jqwidgets/jqwidgets/jqxdata.js"></script>
+    <script type="text/javascript" src="./javascripts/jqwidgets/jqwidgets/jqxbuttons.js"></script>
+    <script type="text/javascript" src="./javascripts/jqwidgets/jqwidgets/jqxscrollbar.js"></script>
+    <script type="text/javascript" src="./javascripts/jqwidgets/jqwidgets/jqxtextarea.js"></script>
+	<script type="text/javascript" src="./javascripts/jqwidgets/jqwidgets/jqxloader.js"></script>
+	
+    <script type="text/javascript">
+        $(document).ready(function () {
+			
+			var url = "../CollectJenkins/Data/InputJenkinses.json";
+			
+			var response = '';
+				$.ajax({ type: "GET",   
+				url: url,   
+				async: false,
+				success : function(text)
+				{
+					response = text;
+					//alert(JSON.stringify(response));
+					
+					$('#jqxTextArea').val(JSON.stringify(response));
+
+					prettyPrint();
+				}
+				
+			});
+			
+			//alert(response);
+			var info = $('#jqxTextArea').val();
+			$("#saveConfiguration").on('click', function ()
+            {
+				var info = $('#jqxTextArea').val();
+				$.ajax({
+					async: false,
+					type: "POST",
+					url: '../CollectJenkins/SaveConfiguration',
+					data: ({info: info}),
+					//dataType: 'json'
+					error: function(){
+						alert('ERROR: Configuration is not updated in the server!');
+					},
+					success: function (returnedData) {
+						alert('Configuration is updated in the server');
+					}
+				});
+            });
+
+			$("#refreshServerData").on('click', function ()
+            {
+				$('#jqxLoader').jqxLoader('open');
+				$.ajax({
+					async: false,
+					type: "GET",
+					url: '../CollectJenkins/CollectJenkins',
+					data: ({}),
+					success: function (returnedData) {
+						$('#jqxLoader').jqxLoader('close');
+						alert('Data was refreshed in the server or in progress!');
+					}, 
+					error: function(){
+						$('#jqxLoader').jqxLoader('close');
+						alert('ERROR: Failed to refresh data!');
+						
+					}
+				});
+            });			
+
+			$("#jqxLoader").jqxLoader({ width: 100, height: 60, imagePosition: 'top' });
+			//$('#jqxTextArea').jqxTextArea({ height: 400, width: '50%', minLength: 1 , scrollBarSize: 15});
+			
+			function prettyPrint() {
+				var ugly = document.getElementById('jqxTextArea').value;
+				var obj = JSON.parse(ugly);
+				var pretty = JSON.stringify(obj, undefined, 4);
+				document.getElementById('jqxTextArea').value = pretty;
+}
+        });
+    </script>
+	
+</head>
+<body>
+   <div  style="margin-left: 25%;">
+		Jenkins(es) used by service to process for statistic
+   </div>
+<div id="show-data"></div>
+    <div id="jqxLoader">
+	</div>
+	<textarea id="jqxTextArea" style="margin-left: 10%;"  cols="150" rows="30" ></textarea>
+
+    <br />
+    <div  style="margin-left: 30%;">
+        <input type="button" value="Save configuration" id='saveConfiguration' />
+		<input type="button" value="Collect latest data" id='refreshServerData' />
+    </div>
+</body>
+</html>
