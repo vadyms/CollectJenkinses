@@ -1,8 +1,9 @@
 [
+
     {
-        "jenkinsName": "Jenkins CEA7 Platform",
+        "jenkinsName": "Jenkins DevOps NEW",
         "jenkinsAlias": "Jenkins 7.1 platform",
-        "jenkinsUrl": "http://1.9.97.163:8080/",
+        "jenkinsUrl": "http://1.9.97.124:8080/",
         "userName": "",
         "userPassword": ""
     }
