@@ -46,6 +46,19 @@ public class CollectJenkins extends Base {
 				outPrintWriter.print("Service can NOT collect data!");
 				e.printStackTrace();
 			}
+			
+			 String current;
+				try {
+					current = new java.io.File( "." ).getCanonicalPath();
+			        System.out.println("Current dir:"+current);
+			        
+			        String currentDir = System.getProperty("user.dir");
+			        System.out.println("Current dir using System:" +currentDir);
+			        
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 		}
 	}
 

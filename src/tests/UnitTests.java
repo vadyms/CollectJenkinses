@@ -19,6 +19,9 @@ public class UnitTests {
 	Job jobTest;
 	ProcessJob processJob;
 	ProcessJenkins processJenkins;
+	String jenkinsURL = "http://1.9.97.163:8080/";
+	String someJob = "Auto Deployment - OOTB 1.9.97.177";
+	String someJobURL = "http://1.9.97.163:8080/job/Auto%20Deployment%20-%20OOTB%201.9.97.177/";
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -32,13 +35,13 @@ public class UnitTests {
 	@Before
 	public void setUp() throws Exception {
 		jenkinsTest = new Jenkins();
-		jenkinsTest.setJenkinsUrl("http://1.9.97.163:8080/");
+		jenkinsTest.setJenkinsUrl(jenkinsURL);
 		jenkinsTest.setUserName("");
 		jenkinsTest.setUserPassword("");
 		
 		jobTest = new Job();
-		jobTest.setName("Auto Deployment - OOTB 1.9.97.177");
-		jobTest.setUrl("http://1.9.97.163:8080/job/Auto%20Deployment%20-%20OOTB%201.9.97.177/");
+		jobTest.setName(someJob);
+		jobTest.setUrl(someJobURL);
 		
 		processJob = new ProcessJob();
 		processJob.setJob(jobTest);
@@ -91,6 +94,5 @@ public class UnitTests {
 			System.err.println(e);
 			fail("Exception happens.");
 		}
-		
 	}
 }
