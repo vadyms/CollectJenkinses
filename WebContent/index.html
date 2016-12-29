@@ -110,6 +110,7 @@
 						});
 					}
 					document.getElementById('jqxButton1').style.visibility='visible';
+					document.getElementById('inputEmails').style.visibility='visible';
 					//document.getElementById('jqxButton2').style.visibility='visible';
 					//document.getElementById('jqxButton3').style.visibility='visible';
 					document.getElementById('jqxButton4').style.visibility='visible';
@@ -127,7 +128,7 @@
 					
 					var jenkins = $("#jenkinses").jqxComboBox('val');
 					//var toList = 'vadimsn@nice.com';
-					var toList = $('#input').jqxInput('val');
+					var toList = $('#inputEmails').jqxInput('val');
 					var ccList = 'vadimsn@nice.com';
 					var fromList = 'jenkins.service@nice.com';
 					var subject = 'Jenkins report';
@@ -172,14 +173,14 @@
 						}
 					});
 				});
-				var recepients = new Array("vadimsn@nice.com","Eitan.Kovacs@nice.com");
-                $("#input").jqxInput({placeHolder: "Enter a recepients emails with ',' separation", height: 25, width: 450, minLength: 1,  source: recepients });
+				var recepients = new Array("vadimsn@nice.com");
+                $("#inputEmails").jqxInput({placeHolder: "Enter a recepients emails with ',' separation", height: 25, width: 450, minLength: 1,  source: recepients });
 			});
 		</script>
 	</head>
 
 	<body class='default' background="./images/768813995-slider2bg.jpg" style="background-repeat: no-repeat; background-size: 100%;">
-		<h2 style="margin-left: 41%;"><b>Jenkinses</b><h2>
+		<h2 style="margin-left: 41%;"><b>Jenkinses</b></h2>
 		<h3 id="date" align="center"></h3>
 		<div id='jenkinses' style="margin-left: 40%;">
 		</div>
@@ -190,7 +191,7 @@
 		<div id="jqxgrid" style="margin-left: 10%;"></div>
 		<br/>
 		<div  style="margin-left: 33%;">
-			<input type="text" id="input" />
+			<input type="text" id="inputEmails" style="visibility: hidden;"/>
 			<br/>
 			<br/>
 			<input type="button" id='jqxButton1' value="Refresh table data"		style="visibility: hidden;"/>
